@@ -1,38 +1,613 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aistream - Real-time AI Audio & Video Streaming</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background-color: #050505; color: #e5e5e5; font-family: system-ui, sans-serif; }
-        .gradient-text { background: linear-gradient(90deg, #4f46e5, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="title">AiStream | AI Audio Noise Reduction & Real-time Enhancement</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --cyan: #00bcd4;
+      --magenta: #e91e63;
+      --bg: #ffffff;
+      --bg-alt: #f8f9fa;
+      --text: #202124;
+      --text-muted: #5f6368;
+      --glass-bg: rgba(255, 255, 255, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --border-radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NavBar */
+    header {
+      position: fixed;
+      top: 0; width: 100%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      margin-left: 24px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+
+    .lang-btn {
+      background: rgba(26, 115, 232, 0.1);
+      border: 1px solid rgba(26, 115, 232, 0.2);
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 24px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .lang-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 60px;
+      overflow: hidden;
+      background: url('assets/hero_bg.png') no-repeat center center;
+      background-size: cover;
+    }
+    
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.95) 100%);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .badge-top {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(26, 115, 232, 0.1);
+      color: var(--primary);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      border: 1px solid rgba(26, 115, 232, 0.2);
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin: 0 0 24px;
+      letter-spacing: -1.5px;
+      color: #111;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--primary), var(--magenta));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p.sub {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-btns a {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .cta-primary {
+      background: linear-gradient(90deg, var(--primary), var(--cyan));
+      color: white;
+      box-shadow: 0 4px 14px rgba(26, 115, 232, 0.4);
+    }
+    .cta-primary:hover {
+      box-shadow: 0 6px 20px rgba(26, 115, 232, 0.6);
+      transform: translateY(-2px);
+    }
+    .cta-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid #ddd;
+      margin-left: 16px;
+    }
+    .cta-secondary:hover {
+      background: #f1f3f4;
+      border-color: #ccc;
+    }
+
+    /* Container generic */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto 50px;
+      font-size: 1.1rem;
+    }
+
+    /* Demo Audio Section */
+    .audio-demo {
+      background: var(--bg-alt);
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .demo-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    .demo-row {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+    .demo-row:last-child {
+      border-bottom: none;
+    }
+    .demo-label {
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+    }
+    .demo-label span.badge {
+      font-size: 0.75rem;
+      background: #e8f0fe;
+      color: var(--primary);
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-left: 8px;
+    }
+    
+    audio {
+      width: 100%;
+      height: 48px;
+      outline: none;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .feature-card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+      transform: translateY(-4px);
+    }
+    .icon-box {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, rgba(26,115,232,0.1), rgba(0,188,212,0.1));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+    .feature-card h3 {
+      font-size: 1.3rem;
+      margin: 0 0 12px;
+    }
+    .feature-card p {
+      color: var(--text-muted);
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    /* Table for Benchmarks */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      border: 1px solid #eee;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      background: #fff;
+    }
+    th, td {
+      padding: 16px 20px;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background: #fafafa;
+      font-weight: 600;
+      color: var(--text);
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* Footer */
+    footer {
+      background: #f1f3f4;
+      padding: 60px 20px 40px;
+      text-align: center;
+    }
+    footer h2 {
+      margin-top: 0;
+      font-size: 1.8rem;
+    }
+    .footer-ctas { margin: 30px 0; }
+    .footer-note {
+      font-size: 0.85rem;
+      color: #9aa0a6;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.8rem; }
+      .demo-row { grid-template-columns: 1fr; gap: 10px; }
+      .cta-secondary { margin-left: 0; margin-top: 16px; }
+      .cta-btns { display: flex; flex-direction: column; }
+    }
+  </style>
 </head>
-<body class="flex flex-col min-h-screen">
-    <nav class="p-6 flex a justify-between items-center border-b border-gray-800">
-        <div class="text-2xl font-bold tracking-tighter">Aistream<span class="text-cyan-400">.</span></div>
-        <div class="flex items-center gap-6 text-sm">
-            <a href="mailto:admin@aistream.stream" class="hover:text-cyan-400">Contact</a>
-        </div>
+<body>
+
+  <header>
+    <div class="logo">AiStream</div>
+    <nav class="nav-links">
+      <a href="#demo" data-i18n="navDemo">Demo</a>
+      <a href="#features" data-i18n="navFeatures">Features</a>
+      <a href="#benchmark" data-i18n="navBenchmark">Benchmark</a>
+      <button id="lang-switch" class="lang-btn" onclick="toggleLang()" data-i18n="langToggle">中</button>
     </nav>
-    <main class="flex-grow flex flex-col items-center justify-center text-center px-6">
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tighter">
-            Real-time <span class="gradient-text">AI Streaming</span>
-        </h1>
-        <p class="max-w-2xl text-gray-400 text-lg md:text-xl mb-10">
-            We build ultra-low latency AI audio & video streaming engines powered by Vertex AI and advanced neural networks. 
-            Enabling seamless agentic workflows for next-gen communication, live AI agents, and intelligent media platforms.
-        </p>
-        <div class="flex flex-wrap gap-4 justify-center">
-            <div class="px-8 py-4 bg-white text-black font-semibold rounded-2xl text-lg">Built on Google Cloud Vertex AI</div>
-            <div class="px-8 py-4 border border-cyan-500 text-cyan-400 font-semibold rounded-2xl text-lg">Claude Opus Ready</div>
-            <div class="px-8 py-4 bg-gray-900 border border-gray-700 rounded-2xl text-lg">Launching Summer 2026</div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <span class="badge-top" data-i18n="heroBadge">Supported by Google for Startups Cloud Program</span>
+      <h1 data-i18n="heroTitle">AI-Powered <span>Clarity</span></h1>
+      <p class="sub" data-i18n="heroSub">
+        At AiStream, we believe the future of real-time communication lies in the seamless fusion of neural networks and real-time data streams. 'Ai' represents our core deep learning algorithms, and 'Stream' represents our ultra-low-latency WebRTC architecture. Just as a filter purifies a river, AiStream purifies audio and video streams in milliseconds, stripping away chaotic background noise to deliver ultimate, pristine human connection. We are building the next generation of intelligent streaming.
+      </p>
+      <div class="cta-btns">
+        <a href="mailto:admin@aistream.stream" class="cta-primary" data-i18n="ctaPrimary">Request a Pilot</a>
+        <a href="#demo" class="cta-secondary" data-i18n="ctaSecondary">Try Live Demo</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo" class="audio-demo">
+    <div class="container">
+      <h2 class="section-title" data-i18n="demoTitle">Real-Time Audio Denoise Comparison</h2>
+      <p class="section-sub" data-i18n="demoSub">Listen to the same highly noisy input processed by different algorithms.</p>
+      
+      <div class="demo-card">
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="demoRow1">Noisy Input</div>
+          <audio controls preload="none">
+            <source src="examples/ai-denoise/aistream-in-noise.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
         </div>
-    </main>
-    <footer class="p-8 text-center text-xs text-gray-500 border-t border-gray-900">
-        © 2026 Aistream Technologies • Powered by Google Cloud
-    </footer>
+        
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="demoRow2">AiStream Enhanced <span class="badge">Proprietary</span></div>
+          <audio controls preload="none">
+            <source src="examples/ai-denoise/aistream-out-denoise.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="demoRow3">Original Clean Speech (Ref)</div>
+          <audio controls preload="none">
+            <source src="examples/ai-denoise/aistream-original.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="demoRow4">GTCRN (Baseline)</div>
+          <audio controls preload="none">
+            <source src="examples/ai-denoise/gtcrn.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="demoRow5">DeepFilterNet (Baseline)</div>
+          <audio controls preload="none">
+            <source src="examples/ai-denoise/deepfilternet.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="demoRow6">RNNoise (Baseline)</div>
+          <audio controls preload="none">
+            <source src="examples/ai-denoise/rnnoise.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="demoRow7">DFSMN (Baseline)</div>
+          <audio controls preload="none">
+            <source src="examples/ai-denoise/dfsmn.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+        
+        <p style="text-align: center; margin-top: 24px; color: var(--text-muted); font-size: 0.9rem;" data-i18n="demoTip">
+          🔊 Suggestion: Use headphones to clearly distinguish: Noisy Input → AiStream → Clean Speech → Baselines.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="container">
+    <h2 class="section-title" data-i18n="featTitle">Disruptive Capabilities</h2>
+    <p class="section-sub" data-i18n="featSub">Breaking the limits of computing and latency, our engine solves the most intractable audio pain points in communication.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon-box">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5v14M22 10v4M7 5v14M2 10v4"/></svg>
+        </div>
+        <h3 data-i18n="feat1Title">Millisecond Latency Denoise</h3>
+        <p data-i18n="feat1Desc">Designed for seamless real-time communication, removing industrial noise while introducing nearly zero transmission delay.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-box">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2l.5-.5m5.5-5.5l5-5c1.1-1.1 2.9-1.1 4 0 1.1 1.1 1.1 2.9 0 4l-5 5"/></svg>
+        </div>
+        <h3 data-i18n="feat2Title">Howling & Reverb Suppression</h3>
+        <p data-i18n="feat2Desc">Strongly shields against complex acoustic feedback and enclosed space reverberation, boosting intelligibility and ASR accuracy.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-box">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><path d="M9 9h6M9 13h6M9 17h6"/></svg>
+        </div>
+        <h3 data-i18n="feat3Title">Edge-Cloud Collaborative</h3>
+        <p data-i18n="feat3Desc">Provides ultra-lightweight inference models for low-power IoT devices offline, or handles massive concurrency in the cloud.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="benchmark" class="container">
+    <h2 class="section-title" data-i18n="benchTitle">Transparent Benchmarks</h2>
+    <p class="section-sub" data-i18n="benchSub">We provide framework validation metrics across multiple scenarios against industry baselines (GTCRN, DeepFilterNet, RNNoise, etc.).</p>
+    
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="th1">Evaluation Metric</th>
+            <th data-i18n="th2">AiStream Next-Gen</th>
+            <th data-i18n="th3">Baselines (Average)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n="td1_1">Processing Latency</td>
+            <td data-i18n="td1_2"><strong>Ultra-Low</strong></td>
+            <td data-i18n="td1_3">Often hundreds of ms buffer</td>
+          </tr>
+          <tr>
+            <td data-i18n="td2_1">Speech Quality (PESQ)</td>
+            <td data-i18n="td2_2"><strong>Outstanding</strong></td>
+            <td data-i18n="td2_3">Average</td>
+          </tr>
+          <tr>
+            <td data-i18n="td3_1">Preservation (STOI)</td>
+            <td data-i18n="td3_2"><strong>Near Zero Loss</strong></td>
+            <td data-i18n="td3_3">Potential frequency loss & robotic artifacts</td>
+          </tr>
+          <tr>
+            <td data-i18n="td4_1">SNR Improvement</td>
+            <td data-i18n="td4_2"><strong>Massive Suppression of Industrial Noise</strong></td>
+            <td data-i18n="td4_3">Effective only for static/low noise</td>
+          </tr>
+          <tr>
+            <td data-i18n="td5_1">Resource Footprint (CPU/Mem)</td>
+            <td data-i18n="td5_2"><strong>Ultra-Lightweight, IoT Ready</strong></td>
+            <td data-i18n="td5_3">High CPU usage, power constrained</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.85rem; color:#888; margin-top: 12px; text-align:right;" data-i18n="benchNote">* Real-time data and detailed partner deployment metrics will be disclosed based on specific commercial test cases.</p>
+  </section>
+
+  <footer>
+    <div class="container" style="padding-top:0;">
+      <h2 data-i18n="footTitle">Accelerate Your Next-Gen Communication Products</h2>
+      <p style="color:var(--text-muted); max-width: 600px; margin:0 auto;" data-i18n="footSub">
+        Whether for contact centers, industrial sites, or telehealth, high-quality audio input determines user satisfaction and the ceiling for downstream AI tasks.
+      </p>
+      <div class="footer-ctas">
+        <a href="mailto:admin@aistream.stream" class="cta-primary" data-i18n="footCta1">Submit Pilot Application</a>
+        <a href="mailto:admin@aistream.stream" class="cta-secondary" data-i18n="footCta2">Read our Tech Whitepaper</a>
+      </div>
+      <p class="footer-note" data-i18n="footCopy">
+        &copy; 2026 AiStream Inc. All rights reserved. Supported by Google for Startups Cloud Program.<br>
+        Website architecture fully refactored and optimized on modern web standards.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const i18n = {
+      title: { en: "AiStream | AI Audio Noise Reduction & Real-time Enhancement", zh: "AiStream | AI 音频降噪与实时增强" },
+      navDemo: { en: "Demo", zh: "对比演示" },
+      navFeatures: { en: "Features", zh: "核心优势" },
+      navBenchmark: { en: "Benchmark", zh: "性能基准" },
+      langToggle: { en: "中", zh: "EN" },
+      heroBadge: { en: "Supported by Google for Startups Cloud Program", zh: "Supported by Google for Startups Cloud Program" },
+      heroTitle: { en: "AI-Powered <span>Clarity</span>", zh: "AI 驱动的<span>纯净音质</span>" },
+      heroSub: { 
+        en: "At AiStream, we believe the future of real-time communication lies in the seamless fusion of neural networks and real-time data streams. 'Ai' represents our core deep learning algorithms, and 'Stream' represents our ultra-low-latency WebRTC architecture. Just as a filter purifies a river, AiStream purifies audio and video streams in milliseconds, stripping away chaotic background noise to deliver ultimate, pristine human connection. We are building the next generation of intelligent streaming.", 
+        zh: "在 AiStream，我们坚信实时通讯的未来在于神经网络与实时数据流的无缝融合。“Ai” 代表核心的深度学习算法，“Stream” 代表超低延迟的 WebRTC 架构。就像过滤器净化河流一样，AiStream 在毫秒级净化音视频流，剥离混沌的背景噪音，传递极致纯净的人类连接。我们正在构建下一代智能流媒体。" 
+      },
+      ctaPrimary: { en: "Request a Pilot", zh: "请求获取测试许可" },
+      ctaSecondary: { en: "Try Live Demo", zh: "体验实时降噪对比" },
+      demoTitle: { en: "Real-Time Audio Denoise Comparison", zh: "实时音频降噪对比" },
+      demoSub: { en: "Listen to the same highly noisy input processed by different algorithms.", zh: "监听同一段高噪声输入，在不同算法处理下的纯净度展现。" },
+      demoRow1: { en: "Noisy Input", zh: "原始嘈杂音频" },
+      demoRow2: { en: "AiStream Enhanced <span class=\"badge\">Proprietary</span>", zh: "AiStream 增强输出 <span class=\"badge\">自研</span>" },
+      demoRow3: { en: "Original Clean Speech (Ref)", zh: "原始纯净语音 (参考)" },
+      demoRow4: { en: "GTCRN (Baseline)", zh: "GTCRN (基准参考)" },
+      demoRow5: { en: "DeepFilterNet (Baseline)", zh: "DeepFilterNet (基准参考)" },
+      demoRow6: { en: "RNNoise (Baseline)", zh: "RNNoise (基准参考)" },
+      demoRow7: { en: "DFSMN (Baseline)", zh: "DFSMN (基准参考)" },
+      demoTip: { en: "🔊 Suggestion: Use headphones to clearly distinguish: Noisy Input → AiStream → Clean Speech → Baselines.", zh: "🔊 建议通过耳机收听以便清晰区分：嘈杂原声 → AiStream → 原始纯净语音 → 其它基准。" },
+      featTitle: { en: "Disruptive Capabilities", zh: "颠覆性的技术能力" },
+      featSub: { en: "Breaking the limits of computing and latency, our engine solves the most intractable audio pain points in communication.", zh: "突破传统算力与延时极限，我们的引擎为您解决通讯中最棘手的音频痛点。" },
+      feat1Title: { en: "Millisecond Latency Denoise", zh: "毫秒级实时降噪" },
+      feat1Desc: { en: "Designed for seamless real-time communication, removing industrial noise while introducing nearly zero transmission delay.", zh: "专为实时无缝通讯设计，剔除嘈杂工业级噪音的同时，几乎不引入任何传输延迟。呼叫中心与在线办公的理想之选。" },
+      feat2Title: { en: "Howling & Reverb Suppression", zh: "啸叫与混响抑制" },
+      feat2Desc: { en: "Strongly shields against complex acoustic feedback and enclosed space reverberation, boosting intelligibility and ASR accuracy.", zh: "强效屏蔽复杂的声学反馈和密闭空间混响，大幅度提升大型会议室的回话清晰度和 ASR 系统的语音识别准确率。" },
+      feat3Title: { en: "Edge-Cloud Collaborative", zh: "云边协同全端覆盖" },
+      feat3Desc: { en: "Provides ultra-lightweight inference models for low-power IoT devices offline, or handles massive concurrency in the cloud.", zh: "提供极度轻量化的推理模型，支持本地弱算力 IoT 边缘设备离线运行，也可在云端执行千万级的高并发处理。" },
+      benchTitle: { en: "Transparent Benchmarks", zh: "客观透明的性能基准" },
+      benchSub: { en: "We provide framework validation metrics across multiple scenarios against industry baselines (GTCRN, DeepFilterNet, RNNoise, etc.).", zh: "我们坚持透明的数据参考。以下是我们内部管线在多种场景下推演的框架性验证指标对比（针对各种开源行业标杆）。" },
+      th1: { en: "Evaluation Metric", zh: "关键评估指标" },
+      th2: { en: "AiStream Next-Gen", zh: "AiStream 新一代模型" },
+      th3: { en: "Baselines (Average)", zh: "参考对比组（平均水平）" },
+      td1_1: { en: "Processing Latency", zh: "处理延迟 (Latency)" },
+      td1_2: { en: "<strong>Ultra-Low</strong>", zh: "<strong>极低延迟</strong>" },
+      td1_3: { en: "Often hundreds of ms buffer", zh: "往往产生数百毫秒级缓冲" },
+      td2_1: { en: "Speech Quality (PESQ)", zh: "语音质量 (PESQ)" },
+      td2_2: { en: "<strong>Outstanding</strong>", zh: "<strong>卓越 (显著提升)</strong>" },
+      td2_3: { en: "Average", zh: "表现正常" },
+      td3_1: { en: "Preservation (STOI)", zh: "保留度 (STOI)" },
+      td3_2: { en: "<strong>Near Zero Loss</strong>", zh: "<strong>几乎不损伤原始语音特性</strong>" },
+      td3_3: { en: "Potential frequency loss & robotic artifacts", zh: "可能伴随频段丢失与机械音" },
+      td4_1: { en: "SNR Improvement", zh: "信噪比增益 (SNR Impr.)" },
+      td4_2: { en: "<strong>Massive Suppression of Industrial Noise</strong>", zh: "<strong>大幅压制工业级极强噪音</strong>" },
+      td4_3: { en: "Effective only for static/low noise", zh: "仅对静态/低度噪音有良好表现" },
+      td5_1: { en: "Resource Footprint (CPU/Mem)", zh: "硬件资源开销 (CPU/Mem)" },
+      td5_2: { en: "<strong>Ultra-Lightweight, IoT Ready</strong>", zh: "<strong>超轻量级，适配 IoT 端</strong>" },
+      td5_3: { en: "High CPU usage, power constrained", zh: "通常吃满 CPU，功耗受限极大" },
+      benchNote: { en: "* Real-time data and detailed partner deployment metrics will be disclosed based on specific commercial test cases.", zh: "* 实时数据和详细合作伙伴部署指标将基于特定的商用测试案例公开。" },
+      footTitle: { en: "Accelerate Your Next-Gen Communication Products", zh: "加速您的下一代通讯产品" },
+      footSub: { en: "Whether for contact centers, industrial sites, or telehealth, high-quality audio input determines user satisfaction and the ceiling for downstream AI tasks.", zh: "无论是呼叫中心、工业现场、还是远程医疗，高质量输入决定了用户的满意率和 AI 下游任务的上限。" },
+      footCta1: { en: "Submit Pilot Application", zh: "提交测试申请" },
+      footCta2: { en: "Read our Tech Whitepaper", zh: "了解技术白皮书" },
+      footCopy: { en: "&copy; 2026 AiStream Inc. All rights reserved. Supported by Google for Startups Cloud Program.<br>Website architecture fully refactored and optimized on modern web standards.", zh: "&copy; 2026 AiStream Inc. 版权所有. Supported by Google for Startups Cloud Program.<br>本官网架构已基于前沿 Web 标准全面重构优化。" }
+    };
+
+    let currentLang = 'en';
+
+    function applyTranslations(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[key] && i18n[key][lang]) {
+          if (el.tagName === 'TITLE') {
+            document.title = i18n[key][lang];
+          } else {
+            el.innerHTML = i18n[key][lang];
+          }
+        }
+      });
+      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'en' ? 'zh' : 'en';
+      applyTranslations(currentLang);
+    }
+
+    // Initialize English by default
+    applyTranslations(currentLang);
+  </script>
 </body>
 </html>
