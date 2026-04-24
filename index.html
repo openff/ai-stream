@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-i18n="title">AiStream | AI Audio Noise Reduction & Real-time Enhancement</title>
+  <title data-i18n="title">AiStream | AI Audio Noise Reduction & Echo Cancellation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -344,9 +344,10 @@
     <div class="logo">AiStream</div>
     <nav class="nav-links">
       <a href="#demo" data-i18n="navDemo">Demo</a>
+      <a href="#aec-demo" data-i18n="navAecDemo">AEC Demo</a>
       <a href="#features" data-i18n="navFeatures">Features</a>
       <a href="#benchmark" data-i18n="navBenchmark">Benchmark</a>
-      <button id="lang-switch" class="lang-btn" onclick="toggleLang()" data-i18n="langToggle">中</button>
+      <button id="lang-switch" class="lang-btn" onclick="toggleLang()" data-i18n="langToggle">EN</button>
     </nav>
   </header>
 
@@ -355,7 +356,7 @@
       <span class="badge-top" data-i18n="heroBadge">Supported by Google for Startups Cloud Program</span>
       <h1 data-i18n="heroTitle">AI-Powered <span>Clarity</span></h1>
       <p class="sub" data-i18n="heroSub">
-        At AiStream, we believe the future of real-time communication lies in the seamless fusion of neural networks and real-time data streams. 'Ai' represents our core deep learning algorithms, and 'Stream' represents our ultra-low-latency WebRTC architecture. Just as a filter purifies a river, AiStream purifies audio and video streams in milliseconds, stripping away chaotic background noise to deliver ultimate, pristine human connection. We are building the next generation of intelligent streaming.
+        At AiStream, we believe the future of real-time communication lies in the seamless fusion of neural networks and real-time data streams. 'Ai' represents our core deep learning algorithms, and 'Stream' represents our ultra-low-latency WebRTC architecture. Just as a filter purifies a river, AiStream purifies audio and video streams in milliseconds, stripping away chaotic background noise and acoustic echoes to deliver ultimate, pristine human connection. We are building the next generation of intelligent streaming.
       </p>
       <div class="cta-btns">
         <a href="mailto:admin@aistream.stream" class="cta-primary" data-i18n="ctaPrimary">Request a Pilot</a>
@@ -433,6 +434,51 @@
     </div>
   </section>
 
+  <section id="aec-demo" class="audio-demo">
+    <div class="container">
+      <h2 class="section-title" data-i18n="aecTitle">AI-AEC Echo Cancellation Demo</h2>
+      <p class="section-sub" data-i18n="aecSub">Hear the far-end reference, mic signal before AEC, clean near-end target, and AiStream output after echo cancellation.</p>
+
+      <div class="demo-card">
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="aecRow1">Reference Far-End Playback</div>
+          <audio controls preload="none">
+            <source src="examples/ai-aec/reference_farend.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="aecRow2">Microphone Input (With Echo)</div>
+          <audio controls preload="none">
+            <source src="examples/ai-aec/mic_synthetic.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="aecRow3">Near-End Clean Speech (Target)</div>
+          <audio controls preload="none">
+            <source src="examples/ai-aec/nearend_clean.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+
+        <div class="demo-row">
+          <div class="demo-label" data-i18n="aecRow4">AiStream AEC Output <span class="badge">Echo Removed</span></div>
+          <audio controls preload="none">
+            <source src="examples/ai-aec/out_aec_aec.wav" type="audio/wav" />
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+
+        <p style="text-align: center; margin-top: 24px; color: var(--text-muted); font-size: 0.9rem;" data-i18n="aecTip">
+          🔊 Suggested listening order: Reference Far-End -> Mic Input (Echo) -> AEC Output -> Near-End Clean Target.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <section id="features" class="container">
     <h2 class="section-title" data-i18n="featTitle">Disruptive Capabilities</h2>
     <p class="section-sub" data-i18n="featSub">Breaking the limits of computing and latency, our engine solves the most intractable audio pain points in communication.</p>
@@ -449,8 +495,8 @@
         <div class="icon-box">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2l.5-.5m5.5-5.5l5-5c1.1-1.1 2.9-1.1 4 0 1.1 1.1 1.1 2.9 0 4l-5 5"/></svg>
         </div>
-        <h3 data-i18n="feat2Title">Howling & Reverb Suppression</h3>
-        <p data-i18n="feat2Desc">Strongly shields against complex acoustic feedback and enclosed space reverberation, boosting intelligibility and ASR accuracy.</p>
+        <h3 data-i18n="feat2Title">Echo, Howling & Reverb Suppression</h3>
+        <p data-i18n="feat2Desc">Eliminates acoustic echoes and shields against complex feedback and enclosed space reverberation, boosting intelligibility and ASR accuracy.</p>
       </div>
       <div class="feature-card">
         <div class="icon-box">
@@ -493,7 +539,7 @@
           </tr>
           <tr>
             <td data-i18n="td4_1">SNR Improvement</td>
-            <td data-i18n="td4_2"><strong>Massive Suppression of Industrial Noise</strong></td>
+            <td data-i18n="td4_2"><strong>Massive Suppression of Noise & Echo</strong></td>
             <td data-i18n="td4_3">Effective only for static/low noise</td>
           </tr>
           <tr>
@@ -526,16 +572,17 @@
 
   <script>
     const i18n = {
-      title: { en: "AiStream | AI Audio Noise Reduction & Real-time Enhancement", zh: "AiStream | AI 音频降噪与实时增强" },
+      title: { en: "AiStream | AI Audio Noise Reduction & Echo Cancellation", zh: "AiStream | AI 音频降噪与回声消除" },
       navDemo: { en: "Demo", zh: "对比演示" },
+      navAecDemo: { en: "AEC Demo", zh: "回声消除演示" },
       navFeatures: { en: "Features", zh: "核心优势" },
       navBenchmark: { en: "Benchmark", zh: "性能基准" },
       langToggle: { en: "中", zh: "EN" },
       heroBadge: { en: "Supported by Google for Startups Cloud Program", zh: "Supported by Google for Startups Cloud Program" },
       heroTitle: { en: "AI-Powered <span>Clarity</span>", zh: "AI 驱动的<span>纯净音质</span>" },
       heroSub: { 
-        en: "At AiStream, we believe the future of real-time communication lies in the seamless fusion of neural networks and real-time data streams. 'Ai' represents our core deep learning algorithms, and 'Stream' represents our ultra-low-latency WebRTC architecture. Just as a filter purifies a river, AiStream purifies audio and video streams in milliseconds, stripping away chaotic background noise to deliver ultimate, pristine human connection. We are building the next generation of intelligent streaming.", 
-        zh: "在 AiStream，我们坚信实时通讯的未来在于神经网络与实时数据流的无缝融合。“Ai” 代表核心的深度学习算法，“Stream” 代表超低延迟的 WebRTC 架构。就像过滤器净化河流一样，AiStream 在毫秒级净化音视频流，剥离混沌的背景噪音，传递极致纯净的人类连接。我们正在构建下一代智能流媒体。" 
+        en: "At AiStream, we believe the future of real-time communication lies in the seamless fusion of neural networks and real-time data streams. 'Ai' represents our core deep learning algorithms, and 'Stream' represents our ultra-low-latency WebRTC architecture. Just as a filter purifies a river, AiStream purifies audio and video streams in milliseconds, stripping away chaotic background noise and acoustic echoes to deliver ultimate, pristine human connection. We are building the next generation of intelligent streaming.", 
+        zh: "在 AiStream，我们坚信实时通讯的未来在于神经网络与实时数据流的无缝融合。“Ai” 代表核心的深度学习算法，“Stream” 代表超低延迟的 WebRTC 架构。就像过滤器净化河流一样，AiStream 在毫秒级净化音视频流，剥离混沌的背景噪音与声学回声，传递极致纯净的人类连接。我们正在构建下一代智能流媒体。" 
       },
       ctaPrimary: { en: "Request a Pilot", zh: "请求获取测试许可" },
       ctaSecondary: { en: "Try Live Demo", zh: "体验实时降噪对比" },
@@ -549,12 +596,19 @@
       demoRow6: { en: "RNNoise (Baseline)", zh: "RNNoise (基准参考)" },
       demoRow7: { en: "DFSMN (Baseline)", zh: "DFSMN (基准参考)" },
       demoTip: { en: "🔊 Suggestion: Use headphones to clearly distinguish: Noisy Input → AiStream → Clean Speech → Baselines.", zh: "🔊 建议通过耳机收听以便清晰区分：嘈杂原声 → AiStream → 原始纯净语音 → 其它基准。" },
+      aecTitle: { en: "AI-AEC Echo Cancellation Demo", zh: "AI-AEC 回声消除演示" },
+      aecSub: { en: "Hear the far-end reference, mic signal before AEC, clean near-end target, and AiStream output after echo cancellation.", zh: "对比聆听远端参考、AEC 前麦克风信号、近端纯净目标和 AiStream 回声消除输出。" },
+      aecRow1: { en: "Reference Far-End Playback", zh: "远端参考播放信号" },
+      aecRow2: { en: "Microphone Input (With Echo)", zh: "麦克风输入（含回声）" },
+      aecRow3: { en: "Near-End Clean Speech (Target)", zh: "近端纯净语音（目标）" },
+      aecRow4: { en: "AiStream AEC Output <span class=\"badge\">Echo Removed</span>", zh: "AiStream AEC 输出 <span class=\"badge\">已消回声</span>" },
+      aecTip: { en: "🔊 Suggested listening order: Reference Far-End -> Mic Input (Echo) -> AEC Output -> Near-End Clean Target.", zh: "🔊 建议试听顺序：远端参考 -> 麦克风含回声输入 -> AEC 输出 -> 近端纯净目标。" },
       featTitle: { en: "Disruptive Capabilities", zh: "颠覆性的技术能力" },
       featSub: { en: "Breaking the limits of computing and latency, our engine solves the most intractable audio pain points in communication.", zh: "突破传统算力与延时极限，我们的引擎为您解决通讯中最棘手的音频痛点。" },
       feat1Title: { en: "Millisecond Latency Denoise", zh: "毫秒级实时降噪" },
       feat1Desc: { en: "Designed for seamless real-time communication, removing industrial noise while introducing nearly zero transmission delay.", zh: "专为实时无缝通讯设计，剔除嘈杂工业级噪音的同时，几乎不引入任何传输延迟。呼叫中心与在线办公的理想之选。" },
-      feat2Title: { en: "Howling & Reverb Suppression", zh: "啸叫与混响抑制" },
-      feat2Desc: { en: "Strongly shields against complex acoustic feedback and enclosed space reverberation, boosting intelligibility and ASR accuracy.", zh: "强效屏蔽复杂的声学反馈和密闭空间混响，大幅度提升大型会议室的回话清晰度和 ASR 系统的语音识别准确率。" },
+      feat2Title: { en: "Echo, Howling & Reverb Suppression", zh: "回声、啸叫与混响抑制" },
+      feat2Desc: { en: "Eliminates acoustic echoes and shields against complex feedback and enclosed space reverberation, boosting intelligibility and ASR accuracy.", zh: "全面消除声学回声，强效屏蔽复杂的声学反馈和密闭空间混响，大幅度提升大型会议室的会话清晰度和 ASR 系统的语音识别准确率。" },
       feat3Title: { en: "Edge-Cloud Collaborative", zh: "云边协同全端覆盖" },
       feat3Desc: { en: "Provides ultra-lightweight inference models for low-power IoT devices offline, or handles massive concurrency in the cloud.", zh: "提供极度轻量化的推理模型，支持本地弱算力 IoT 边缘设备离线运行，也可在云端执行千万级的高并发处理。" },
       benchTitle: { en: "Transparent Benchmarks", zh: "客观透明的性能基准" },
@@ -572,7 +626,7 @@
       td3_2: { en: "<strong>Near Zero Loss</strong>", zh: "<strong>几乎不损伤原始语音特性</strong>" },
       td3_3: { en: "Potential frequency loss & robotic artifacts", zh: "可能伴随频段丢失与机械音" },
       td4_1: { en: "SNR Improvement", zh: "信噪比增益 (SNR Impr.)" },
-      td4_2: { en: "<strong>Massive Suppression of Industrial Noise</strong>", zh: "<strong>大幅压制工业级极强噪音</strong>" },
+      td4_2: { en: "<strong>Massive Suppression of Noise & Echo</strong>", zh: "<strong>大幅压制工业级极强噪音与回声</strong>" },
       td4_3: { en: "Effective only for static/low noise", zh: "仅对静态/低度噪音有良好表现" },
       td5_1: { en: "Resource Footprint (CPU/Mem)", zh: "硬件资源开销 (CPU/Mem)" },
       td5_2: { en: "<strong>Ultra-Lightweight, IoT Ready</strong>", zh: "<strong>超轻量级，适配 IoT 端</strong>" },
@@ -585,7 +639,7 @@
       footCopy: { en: "&copy; 2026 AiStream Inc. All rights reserved. Supported by Google for Startups Cloud Program.<br>Website architecture fully refactored and optimized on modern web standards.", zh: "&copy; 2026 AiStream Inc. 版权所有. Supported by Google for Startups Cloud Program.<br>本官网架构已基于前沿 Web 标准全面重构优化。" }
     };
 
-    let currentLang = 'en';
+    let currentLang = 'zh';
 
     function applyTranslations(lang) {
       document.querySelectorAll('[data-i18n]').forEach(el => {
